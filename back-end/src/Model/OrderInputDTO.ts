@@ -1,6 +1,11 @@
-export interface OrderInputDTO{
-    nameUser: string,
-    namePizza: string,
-    qty_pizza: string,
-    obs?: string
-}
+export interface OrderInputDTO {
+    nameUser: string;
+    obs?: string;
+    pizzas: PizzaOrder[];
+  }
+  
+export interface PizzaOrder {
+    name: string;
+    quantity: number;
+  }
+  

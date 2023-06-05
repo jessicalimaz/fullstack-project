@@ -1,2 +1,17 @@
 GET http://localhost:3003/api/pizzas
 Content-Type: application/json
+
+// Order
+###
+POST http://localhost:3003/api/create-order
+Content-Type: application/json
+
+{
+    "name": "Jess",
+    "pizzas": [
+        { "pizza": "Calabresa", "qty_pizza": 4 },
+        { "pizza": "Margherita", "qty_pizza": 2 },
+        { "pizza": "Pepperoni", "qty_pizza": 3 }
+    ],
+    "obs": "maionese extra"
+}
