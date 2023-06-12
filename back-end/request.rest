@@ -9,9 +9,17 @@ Content-Type: application/json
 {
     "name": "Jess",
     "pizzas": [
-        { "pizza": "Calabresa", "qty_pizza": 4 },
-        { "pizza": "Margherita", "qty_pizza": 2 },
-        { "pizza": "Pepperoni", "qty_pizza": 3 }
+        { "pizza": "Margherita", "qty_pizza": 1 },
+        { "pizza": "Pepperoni", "qty_pizza": 3 },
+        { "pizza": "Chocolate", "qty_pizza": 2 }
     ],
-    "obs": "maionese extra"
+    "obs": ""
 }
+
+###
+GET http://localhost:3003/api/orders
+Content-Type: application/json
+
+###
+GET http://localhost:3003/api/orders/93b3e0a0-627c-4516-a6b3-e405e3511ffc
+Content-Type: application/json

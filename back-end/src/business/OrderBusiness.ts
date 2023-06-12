@@ -1,5 +1,4 @@
-import { Order } from "../Model/Order";
-import { OrderInputDTO } from "../Model/OrderInputDTO";
+import { Order, OrderInput, PizzaOrder, detailsOrder } from "../Model/Order";
 import { OrderDatabase } from "../database/OrderDatabase";
 import { CustomError, InvalidBody } from "../error/CustomError";
 import { IdGenerator } from "../services/IdGenerator";
@@ -8,32 +7,57 @@ const orderDatabase = new OrderDatabase()
 const idGenerator = new IdGenerator()
 
 export class OrderBusiness {
-    public createOrder = async (input: OrderInputDTO) => {
+    public createOrder = async (input: OrderInput, pizzas:PizzaOrder[]) => {
         try {
-            const { nameUser, obs, pizzas } = input;
+            const { nameUser, obs } = input;
+            const orderDetails = pizzas
 
-            if (!nameUser || !pizzas || pizzas.length === 0) {
+            if (!nameUser || orderDetails.length === 0) {
                 throw new InvalidBody();
             }
 
-            const id: string = idGenerator.generateId()
+            const id = idGenerator.generateId()
 
             const order: Order = {
                 id: id,
                 nameUser: nameUser,
                 obs: obs,
-                pizzas: [
-                    { name: pizzas[0].name, quantity: pizzas[0].quantity }
-                ]
             };
-            
-            const orderId = await orderDatabase.createOrder(order);
+           
+            await orderDatabase.createOrder(order);
 
-            for (const pizza of order.pizzas) {
-                await orderDatabase.createOrderPizza(orderId, pizza.name, pizza.quantity);
-            }
+            await orderDetails.forEach(async order =>{
+                const pizzaOrder ={
+                    id: id,
+                    name: order.pizza,
+                    quantity: order.qty_pizza
+                }
+                await orderDatabase.createOrderPizza(pizzaOrder)
+            })
 
         } catch (error: any) {
+            throw new CustomError(400, error.message);
+        }
+    }
+
+    public getAllOrders = async () =>{
+        try{
+            const orders = await orderDatabase.getAllOrders()
+            return orders
+
+        }catch(error:any){
+            throw new CustomError(400, error.message)
+
+        }
+    }
+
+    public getOrderDetails = async(idUser:string)=>{
+        try{
+            const id = idUser
+            const result = await orderDatabase.getOrderDetails(id)
+            return result
+
+        }catch(error:any){
             throw new CustomError(400, error.message);
         }
     }
