@@ -1,12 +1,22 @@
+
 export interface Order {
     id: string,
     nameUser: string;
     obs?: string;
-    pizzas: PizzaOrder[];
-  }
-  
+}
+
+export interface OrderInput {
+  nameUser: string;
+  obs?: string;
+}
+
 export interface PizzaOrder {
-    name: string;
-    quantity: number;
+    pizza: string;
+    qty_pizza: number;
   }
   
+export interface detailsOrder{
+  id: string,
+  name: string;
+  quantity: number;
+}
