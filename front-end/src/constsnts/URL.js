@@ -1,0 +1,1 @@
+export const BASE_URL = `https://fullstack-project-tc24.onrender.com`
